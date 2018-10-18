@@ -18,9 +18,6 @@ import CardboardVRDisplay from 'cardboard-vr-display';
 import { version } from '../package.json';
 import DefaultConfig from './config';
 
-//TODO DEBUG:
-const LOG_PREFIX = 'WEBVR_POLYFILL';
-
 function WebVRPolyfill(config) {
   this.config = extend(extend({}, DefaultConfig), config);
   this.polyfillDisplays = [];
@@ -39,8 +36,8 @@ function WebVRPolyfill(config) {
   // If we don't have native 1.1 support, or if we want to provide
   // a CardboardVRDisplay in the event of native support with no displays,
   // inject our own polyfill
-  console.log(LOG_PREFIX, 'Has native', this.hasNative, isMobile());
-  if (!this.hasNative || this.config.PROVIDE_MOBILE_VRDISPLAY && isMobile()) {
+  // if FORCE_VR flag is enabled, allow VR mode without checking if in mobile
+  if (!this.hasNative || this.config.PROVIDE_MOBILE_VRDISPLAY && (isMobile() || this.config.FORCE_VR)) {
     this.enable();
     // If we need to create a CardboardVRDisplay, fire the `vrdisplayconnect`
     // event when the polyfill is enabled
@@ -57,9 +54,8 @@ WebVRPolyfill.prototype.getPolyfillDisplays = function() {
     return this.polyfillDisplays;
   }
 
-  console.log(LOG_PREFIX, 'getPolyfillDisplays', isMobile());
   // Add a Cardboard VRDisplay on compatible mobile devices
-  if (isMobile()) {
+  if (isMobile() || this.config.FORCE_VR) {
     var vrDisplay = new CardboardVRDisplay({
       ADDITIONAL_VIEWERS:           this.config.ADDITIONAL_VIEWERS,
       DEFAULT_VIEWER:               this.config.DEFAULT_VIEWER,
@@ -130,7 +126,6 @@ WebVRPolyfill.prototype.enable = function() {
 WebVRPolyfill.prototype.getVRDisplays = function() {
   var config = this.config;
 
-  console.log(LOG_PREFIX, 'getVRDisplays', this.hasNative);
   if (!this.hasNative) {
     return Promise.resolve(this.getPolyfillDisplays());
   }

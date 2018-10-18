@@ -3367,10 +3367,10 @@ var DefaultConfig = {
   ROTATE_INSTRUCTIONS_DISABLED: false,
   YAW_ONLY: false,
   BUFFER_SCALE: 0.5,
-  DIRTY_SUBMIT_FRAME_BINDINGS: false
+  DIRTY_SUBMIT_FRAME_BINDINGS: false,
+  FORCE_VR: false
 };
 
-var LOG_PREFIX = 'WEBVR_POLYFILL';
 function WebVRPolyfill(config) {
   this.config = extend(extend({}, DefaultConfig), config);
   this.polyfillDisplays = [];
@@ -3380,8 +3380,7 @@ function WebVRPolyfill(config) {
   this.native.getVRDisplays = navigator.getVRDisplays;
   this.native.VRFrameData = window.VRFrameData;
   this.native.VRDisplay = window.VRDisplay;
-  console.log(LOG_PREFIX, 'Has native', this.hasNative, isMobile());
-  if (!this.hasNative || this.config.PROVIDE_MOBILE_VRDISPLAY && isMobile()) {
+  if (!this.hasNative || this.config.PROVIDE_MOBILE_VRDISPLAY && (isMobile() || this.config.FORCE_VR)) {
     this.enable();
     this.getVRDisplays().then(function (displays) {
       if (displays && displays[0] && displays[0].fireVRDisplayConnect_) {
@@ -3394,8 +3393,7 @@ WebVRPolyfill.prototype.getPolyfillDisplays = function () {
   if (this._polyfillDisplaysPopulated) {
     return this.polyfillDisplays;
   }
-  console.log(LOG_PREFIX, 'getPolyfillDisplays', isMobile());
-  if (isMobile()) {
+  if (isMobile() || this.config.FORCE_VR) {
     var vrDisplay = new CardboardVRDisplay({
       ADDITIONAL_VIEWERS: this.config.ADDITIONAL_VIEWERS,
       DEFAULT_VIEWER: this.config.DEFAULT_VIEWER,
@@ -3441,7 +3439,6 @@ WebVRPolyfill.prototype.enable = function () {
 WebVRPolyfill.prototype.getVRDisplays = function () {
   var _this = this;
   var config = this.config;
-  console.log(LOG_PREFIX, 'getVRDisplays', this.hasNative);
   if (!this.hasNative) {
     return Promise.resolve(this.getPolyfillDisplays());
   }

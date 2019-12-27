@@ -1,6 +1,6 @@
 {
   "name": "webvr-polyfill",
-  "version": "0.10.8",
+  "version": "0.10.10",
   "homepage": "https://github.com/immersive-web/webvr-polyfill",
   "authors": [
     "Boris Smus <boris@smus.com>",
@@ -37,7 +37,7 @@
     "build-all": "npm run build && npm run build-min",
     "watch": "rollup -c -w",
     "test": "mocha -r test/init.js --compilers js:babel-core/register test/*.test.js",
-    "preversion": "npm test",
+    "preversion": "npm install && npm test",
     "version": "npm run build-all && git add build/*",
     "postversion": "git push && git push --tags && npm publish"
   },
@@ -46,6 +46,6 @@
     "url": "https://github.com/immersive-web/webvr-polyfill/issues"
   },
   "dependencies": {
-    "cardboard-vr-display": "^1.0.15"
+    "cardboard-vr-display": "^1.0.16"
   }
 }

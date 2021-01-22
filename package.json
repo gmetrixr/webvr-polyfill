@@ -1,6 +1,6 @@
 {
   "name": "webvr-polyfill",
-  "version": "0.10.11",
+  "version": "0.10.12",
   "homepage": "https://github.com/immersive-web/webvr-polyfill",
   "authors": [
     "Boris Smus <boris@smus.com>",
@@ -46,6 +46,6 @@
     "url": "https://github.com/immersive-web/webvr-polyfill/issues"
   },
   "dependencies": {
-    "cardboard-vr-display": "^1.0.18"
+    "cardboard-vr-display": "^1.0.19"
   }
 }

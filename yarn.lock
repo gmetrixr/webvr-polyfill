@@ -665,7 +665,7 @@ caniuse-lite@^1.0.30000844:
 
 "cardboard-vr-display@git://github.com/gmetrixr/cardboard-vr-display#main":
   version "1.0.19"
-  resolved "git://github.com/gmetrixr/cardboard-vr-display#47a89c8e720af03c9a6873461329e0e7181fd1a6"
+  resolved "git://github.com/gmetrixr/cardboard-vr-display#866ff833d7f070d9299b2af98d78d7af5ae69ab5"
   dependencies:
     gl-preserve-state "^1.0.0"
     nosleep.js "^0.7.0"

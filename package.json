@@ -46,6 +46,6 @@
     "url": "https://github.com/immersive-web/webvr-polyfill/issues"
   },
   "dependencies": {
-    "cardboard-vr-display": "^1.0.19"
+    "cardboard-vr-display": "git://github.com/gmetrixr/cardboard-vr-display#main"
   }
 }
